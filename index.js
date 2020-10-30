@@ -12,22 +12,27 @@ export const weekDays = {
   SUNDAY: 7
 }
 
-export const getInvoiceDay = payDay => {
-  // TODO: if payDay isn't a moment obj, throw an invalid argument exception
+export const getInvoiceDay = day => {
+  if (!day instanceof moment) throw new Error('The \'day\' parameter must be an object of type Moment.')
 
-  return moment(payDay).subtract(7, 'days');
+  return moment(day).subtract(7, 'days');
 }
 
 export const getMidMonthDay = day => {
+  if (!day instanceof moment) throw new Error('The \'day\' parameter must be an object of type Moment.')
+
   return moment({ year: day.year(), month: day.month(), date: 15 }).startOf('day');
 }
 
 export const getEndOfMonthDay = day => {
+  if (!day instanceof moment) throw new Error('The \'day\' parameter must be an object of type Moment.')
+
   return moment(day).endOf('month').startOf('day');
 }
 
 export const getClosestBusinessDay = day => {
-  // TODO: if payDay isn't a moment obj, throw an invalid argument exception
+  if (!day instanceof moment) throw new Error('The \'day\' parameter must be an object of type Moment.')
+
   const dayClone = moment(day);
 
   while (dayClone.day() > weekDays.FRIDAY) {
@@ -38,7 +43,8 @@ export const getClosestBusinessDay = day => {
 }
 
 export const findNextPayDay = day => {
-  // TODO: if payDay isn't a moment obj, throw an invalid argument exception
+  if (!day instanceof moment) throw new Error('The \'day\' parameter must be an object of type Moment.')
+
   const midMonth = getClosestBusinessDay(getMidMonthDay(day));
   const endOfMonth = getClosestBusinessDay(getEndOfMonthDay(day));
   const midNextMonth = getClosestBusinessDay(getMidMonthDay(moment(day).add(1, 'month')));
@@ -53,7 +59,8 @@ export const findNextPayDay = day => {
 }
 
 export const findPreviousPayDay = day => {
-  // TODO: if payDay isn't a moment obj, throw an invalid argument exception
+  if (!day instanceof moment) throw new Error('The \'day\' parameter must be an object of type Moment.')
+
   const midMonth = getClosestBusinessDay(getMidMonthDay(day));
   const endOfMonth = getClosestBusinessDay(getEndOfMonthDay(day));
   const endOfLastMonth = getClosestBusinessDay(getEndOfMonthDay(moment(day).subtract(1, 'month')));

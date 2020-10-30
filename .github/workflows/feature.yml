@@ -1,0 +1,24 @@
+name: Feature Build
+
+on:
+  push:
+    branches:
+      - "!master"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Unit Tests
+        run: npm test

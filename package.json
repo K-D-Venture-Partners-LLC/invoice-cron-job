@@ -1,0 +1,22 @@
+{
+  "name": "invoice-cron-job",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/K-D-Venture-Partners-LLC/invoice-cron-job.git"
+  },
+  "author": "Keionne Derousselle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/K-D-Venture-Partners-LLC/invoice-cron-job/issues"
+  },
+  "homepage": "https://github.com/K-D-Venture-Partners-LLC/invoice-cron-job#readme",
+  "dependencies": {
+    "moment-mini": "^2.24.0"
+  }
+}

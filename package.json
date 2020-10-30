@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/K-D-Venture-Partners-LLC/invoice-cron-job#readme",
   "lint-staged": {
-    "*.{js,vue}": "eslint --ignore-path .eslintignore --fix"
+    "*.{js,vue}": "eslint --fix"
   },
   "husky": {
     "hooks": {

@@ -16,5 +16,6 @@ module.exports = {
 
   collectCoverageFrom: [
     '<rootDir>/**/*.js',
+    '!.eslintrc.js'
   ],
 }

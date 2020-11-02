@@ -1,72 +1,72 @@
 // 5 - 8, 18 - 24
 const moment = require('moment-mini')
 
-export const weekDays = {
-  SUNDAY: 0,
+const weekDays = {
   MONDAY: 1,
   TUESDAY: 2,
   WEDNESDAY: 3,
   THURSDAY: 4,
   FRIDAY: 5,
-  SATURDAY: 6
+  SATURDAY: 6,
+  SUNDAY: 7
 }
 
-export const getInvoiceDay = day => {
-  if (!(day instanceof moment)) throw new Error('The \'day\' parameter must be an object of type Moment.')
+const getInvoiceDate = date => {
+  if (!(date instanceof moment)) throw new Error('The \'date\' parameter must be an object of type Moment.')
 
-  return moment(day).subtract(7, 'days')
+  return moment(date).subtract(7, 'days')
 }
 
-export const getMidMonthDay = day => {
-  if (!(day instanceof moment)) throw new Error('The \'day\' parameter must be an object of type Moment.')
+const getMidMonthDate = date => {
+  if (!(date instanceof moment)) throw new Error('The \'date\' parameter must be an object of type Moment.')
 
-  return moment({ year: day.year(), month: day.month(), date: 15 }).startOf('day')
+  return moment({ year: date.year(), month: date.month(), date: 15 }).startOf('day')
 }
 
-export const getEndOfMonthDay = day => {
-  if (!(day instanceof moment)) throw new Error('The \'day\' parameter must be an object of type Moment.')
+const getEndOfMonthDate = date => {
+  if (!(date instanceof moment)) throw new Error('The \'date\' parameter must be an object of type Moment.')
 
-  return moment(day).endOf('month').startOf('day')
+  return moment(date).endOf('month').startOf('day')
 }
 
-export const getClosestBusinessDay = day => {
-  if (!(day instanceof moment)) throw new Error('The \'day\' parameter must be an object of type Moment.')
+const getClosestBusinessDate = date => {
+  if (!(date instanceof moment)) throw new Error('The \'date\' parameter must be an object of type Moment.')
 
-  const dayClone = moment(day)
+  const dateClone = moment(date)
 
-  while (dayClone.day() > weekDays.FRIDAY) {
-    dayClone.subtract(1, 'day')
+  while (dateClone.isoWeekday() > weekDays.FRIDAY) {
+    dateClone.subtract(1, 'day')
   }
 
-  return dayClone
+  return dateClone
 }
 
-export const findNextPayDay = day => {
-  if (!(day instanceof moment)) throw new Error('The \'day\' parameter must be an object of type Moment.')
+const findNextPayDate = date => {
+  if (!(date instanceof moment)) throw new Error('The \'date\' parameter must be an object of type Moment.')
 
-  const midMonth = getClosestBusinessDay(getMidMonthDay(day))
-  const endOfMonth = getClosestBusinessDay(getEndOfMonthDay(day))
-  const midNextMonth = getClosestBusinessDay(getMidMonthDay(moment(day).add(1, 'month')))
+  const midMonth = getClosestBusinessDate(getMidMonthDate(date))
+  const endOfMonth = getClosestBusinessDate(getEndOfMonthDate(date))
+  const midNextMonth = getClosestBusinessDate(getMidMonthDate(moment(date).add(1, 'month')))
 
-  if (day.isBefore(midMonth, 'day')) {
+  if (date.isBefore(midMonth, 'day')) {
     return midMonth
-  } else if (day.isBefore(endOfMonth, 'day')) {
+  } else if (date.isBefore(endOfMonth, 'day')) {
     return endOfMonth
   } else {
     return midNextMonth
   }
 }
 
-export const findPreviousPayDay = day => {
-  if (!(day instanceof moment)) throw new Error('The \'day\' parameter must be an object of type Moment.')
+const findPreviousPayDate = date => {
+  if (!(date instanceof moment)) throw new Error('The \'date\' parameter must be an object of type Moment.')
 
-  const midMonth = getClosestBusinessDay(getMidMonthDay(day))
-  const endOfMonth = getClosestBusinessDay(getEndOfMonthDay(day))
-  const endOfLastMonth = getClosestBusinessDay(getEndOfMonthDay(moment(day).subtract(1, 'month')))
+  const midMonth = getClosestBusinessDate(getMidMonthDate(date))
+  const endOfMonth = getClosestBusinessDate(getEndOfMonthDate(date))
+  const endOfLastMonth = getClosestBusinessDate(getEndOfMonthDate(moment(date).subtract(1, 'month')))
 
-  if (day.isAfter(endOfMonth, 'day')) {
+  if (date.isAfter(endOfMonth, 'day')) {
     return endOfMonth
-  } else if (day.isAfter(midMonth, 'day')) {
+  } else if (date.isAfter(midMonth, 'day')) {
     return midMonth
   } else {
     return endOfLastMonth
@@ -74,14 +74,23 @@ export const findPreviousPayDay = day => {
 }
 
 // eslint-disable-next-line no-unused-vars
-const execute = () => {
-  const today = moment().startOf('day')
-  const nextPayDay = findNextPayDay(today)
-  const invoiceDay = getInvoiceDay(nextPayDay)
-  // if (today.isSame(invoiceDay, 'day')) {
-  const previousPayDay = findPreviousPayDay(today)
-  const dayBeforeInvoiceDay = moment(invoiceDay).subtract(1, 'day').endOf('day')
+// const execute = () => {
+//   const today = moment().startOf('day')
+//   const nextPayDay = findNextPayDate(today)
+//   const invoiceDay = getInvoiceDate(nextPayDay)
+//   // if (today.isSame(invoiceDay, 'day')) {
+//   const previousPayDay = findPreviousPayDate(today)
+//   const dayBeforeInvoiceDay = moment(invoiceDay).subtract(1, 'day').endOf('day')
 
-  console.log(today, invoiceDay, previousPayDay, dayBeforeInvoiceDay)
-  // }
+//   console.log(today, invoiceDay, previousPayDay, dayBeforeInvoiceDay)
+//   // }
+// }
+
+module.exports = {
+  getInvoiceDate,
+  getMidMonthDate,
+  getEndOfMonthDate,
+  getClosestBusinessDate,
+  findNextPayDate,
+  findPreviousPayDate
 }

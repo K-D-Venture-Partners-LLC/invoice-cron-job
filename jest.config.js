@@ -14,5 +14,10 @@ module.exports = {
 
   collectCoverage: true,
 
-  collectCoverageFrom: [ '<rootDir>/**/*.js', '!.eslintrc.js', '!jest.config.js' ]
+  collectCoverageFrom: [
+    '<rootDir>/**/*.js',
+    '!.eslintrc.js',
+    '!jest.config.js',
+    '!index.js'
+  ]
 }
